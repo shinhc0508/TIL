@@ -1,0 +1,34 @@
+----팀장---
+git init 
+#remote 한다는뜻
+git remote add origin https://github.com/shinhc0508/Project.git
+git add . # 파일 올림
+git status # 파일 확인
+git commit -m "?" # ?에 파일이름입력
+git remote -v # 연결확인
+git push origin master #master에 자료넣음
+
+받아올때
+git pull origin master #master에서 자료 받아옴
+
+----팀원----
+
+---cmd---
+-> git clone 주소 폴더이름 ## 처음만함
+
+---git--- 
+-> it  글 복사 붙여넣기
+-> git add .  #파일올림
+-> git status   #파일확인
+-> git commit -m "이름"
+-> git checkout -b 이름
+-> git push origin (branch이름)
+
+----업로드하기 싫은 파일.----
+gitignore
+파일 = qrqw/ # 마지막에/
+*.csv  = csv파일전체를 안올림
+---git 안 vim모드---
+vim 
+i = insert 모드
+esc -> :wq 저장후 종료
