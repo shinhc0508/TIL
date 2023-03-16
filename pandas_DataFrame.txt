@@ -1,0 +1,134 @@
+# DataFrame 만들기
+pd.DataFrame(np.random.randint(60,100,12).reshape(4,3),
+               index=['james','maria','brian','alice'],
+               columns=['kor','eng','math'])
+
+pd.DataFrame([[15,'남','신촌중'],[17,'여','연세중']], # data
+                 index=['준서','예은'],                   # index
+                 columns=['나이','성별','학교'])        # columns
+
+#데이터프레임끼리 연산 가넝
+new_df-df
+
+%%writefile sample.csv   #쓰기
+pd.read_csv('sample.csv') #파일로 읽기
+
+#헤더는 실제 데이터 컬럼의 시작위치
+df1 = pd.read_csv(file_path, header=1) 
+
+#copy함수
+df5=df4.copy() 딥카피
+
+#rename 함수
+df.rename(columns={'나이':'연령','성별':'남여','학교':'소속'},inplace=True)
+==> {바꿀값 : 원하는값}
+
+# drop 함수
+df2.drop(1,inplace=True) 번호로 1개떨굴
+df2.drop([1,2],inplace=True) 번호로 2개떨굴
+df5.drop('math', axis=1, inplace=True) 문자로 지정해서 1개를 떨굼
+df6.drop(['eng','music'], axis=1, inplace=True) 문자로 지정해서 2개를 떨굼
+
+# loc 함수
+df4.loc['maria'] #location 문자로 가져옴
+df4.loc[['maria','alice']] #location 문자로 n개 가져옴
+df4.loc['maria':'brian']  # ->위와같은 뜻(슬라이싱)
+print(df4.loc['maria':'alice','eng':'music']) # 슬라이싱으로 범위지정
+
+# loc select 원하는 것만 가져오기
+df4.loc['maria','music'] # df.loc[행,열] 지정.
+df4.loc['maria',['music','eng']] # 다수[행,[열,열]]
+
+
+# iloc 함수
+df4.iloc[1] # intger location 숫자로 가져옴
+df4.iloc[[1,2]] # intger location 숫자로 n개가져옴
+df4.iloc[1:3] #->위와같은 뜻(슬라이싱) [n:n-1] 
+df4.iloc[1:,1:] #원하는 슬라이싱으로 범위지정
+
+# iloc select 원하는 것만 가져오기
+df4.iloc[1,3]    #번호로 [행,열]
+df4.iloc[1,[1,2]]#번호로 다수 [행,[열,열]]
+
+#iloc/loc 값 바꾸기
+df.iloc[1,[2,3]]=100,50
+df.loc['철수',['영어','음악']=100,50
+
+#columns 선택해서 불러오기
+math1 = df4['math'] #df4에 있는 math 칼럼이름으로
+english = df4.eng   # df4에 있는 eng 호출 -> 더 간편 ->type=series
+math_music=df4[['math','music']] # 다수의 칼럼 호출 ->type=DataFrame
+
+#add columns(열)
+df4['gym'] = [90,80,70,40]
+
+#add index(행)
+df4.loc['이름']=[90,70,60,50,10]
+
+#set index #columns을 지정해서 해당 columns을 index로 바꿈
+df.set_index('이름',inplace=True)
+
+#reindex
+new_index=['r0','r1','r2','r3','r4']
+ndf2= df.reindex(new_index)
+
+#reset_index
+ndf2 = ndf2.reset_index()
+
+# 두 학생의 과목별 점수 사칙연산 (연산메소드 사용)
+#계산할때 결측치가 있으면 NAN이 반환된다
+add3= std1.add(std2, fill_value=0) #국어가 nan값이라 nan이면 0으로 출력
+sub3= std1.sub(std2, fill_value=0)
+mul3= std1.mul(std2, fill_value=0)
+div3= std1.div(std2, fill_value=0)
+
+#사칙연산 결과를 데이터 프레임으로 합치기 (시리즈->데이터프라임)
+result = pd.DataFrame([add,sub,mul,div],index=['덧셈','뺄셈','곱셈','나눗셈'])
+
+#sort함수 
+열을 c1을 기준으로 내림차순 정렬
+->ndf3= ndf2.sort_values(by='c1',ascending=False)
+내림차순으로 행 인덱스 정렬 
+->ndf2 = ndf2.sort_index(ascending=False)
+
+#inplace = True 쓰는이유
+중간 결과는 필요하지 않고, 최종결과만 필요한 상황
+메모리를 아끼기 위해서 새로운 데이터 프레임의 생성을 막기위함
+모든 중간단계마다 새로운 변수 이름을 생성 하고 싶지않음
+
+#df안에서 오리진의 벨류값 카운트
+df['origin'].value_counts()
+
+#데이터 프레임 df의 각 열이 가지고 있는 갯수 확인
+df.count()
+
+#파일저장
+df.to_csv('./df_sam.csv')
+df.to_json('./df_sam_json.json')
+df.to_excel('./df_sam_excel.xlsx')
+
+# 실제 데이터 탐색 (exploratory)
+df=pd.read_csv('./auto-mpg.csv',header=None)
+
+#차트볼때 사용
+df.corr() 
+
+#선그래프 그리기
+df_ns.plot()
+
+#행 , 열을 전치(T)하여 다시그리기
+tdf_ns=df_ns.T
+tdf_ns.plot()
+
+writer=pd.ExcelWriter('./df_excelwriter.xlsx')
+df1.to_excel(writer,sheet_name='sheet1')
+df2.to_excel(writer,sheet_name='sheet2')
+writer.save()
+
+!pip install openpyxl # 엑셀을 열기위한 모듈설치
+!pip install openpyxl # 엑셀을 열기위한 모듈설치
+
+#슬라이싱 [[a,b]] == [a:b] <-사용
+import pandas as pd #판다스호출
+import numpy as np #넘파이호출
+import seaborn as sns#타이타닉 차트 호출
